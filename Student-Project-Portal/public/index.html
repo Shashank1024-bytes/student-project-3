@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Project Submission Portal</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Student Project Portal</h1>
+            <p>Submit your academic projects with ease</p>
+            <div class="header-actions">
+                <a href="/search" class="btn btn-secondary">🔍 Search Projects</a>
+            </div>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="progress-bar">
+            <div class="progress-step active" data-step="1">
+                <div class="step-number">1</div>
+                <div class="step-title">Project Name</div>
+            </div>
+            <div class="progress-step" data-step="2">
+                <div class="step-number">2</div>
+                <div class="step-title">Team Members</div>
+            </div>
+            <div class="progress-step" data-step="3">
+                <div class="step-number">3</div>
+                <div class="step-title">Location</div>
+            </div>
+            <div class="progress-step" data-step="4">
+                <div class="step-number">4</div>
+                <div class="step-title">Supporting Files</div>
+            </div>
+            <div class="progress-step" data-step="5">
+                <div class="step-number">5</div>
+                <div class="step-title">Source Code</div>
+            </div>
+        </div>
+
+        <!-- Multi-Step Form -->
+        <form id="projectForm">
+            <!-- Step 1: Project Name -->
+            <div class="form-step active" data-step="1">
+                <h2>Enter Project Name</h2>
+                <div class="form-group">
+                    <label for="projectName">Project Name *</label>
+                    <input type="text" id="projectName" name="projectName" required placeholder="Enter your project name">
+                </div>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-primary" onclick="nextStep()">Submit & Next</button>
+                </div>
+            </div>
+
+            <!-- Step 2: Team Members -->
+            <div class="form-step" data-step="2">
+                <h2>Team Members</h2>
+                <div id="teamMembers">
+                    <div class="team-member" data-member="1">
+                        <button type="button" class="remove-member" onclick="removeMember(1)" style="display: none;">×</button>
+                        <div class="form-group">
+                            <label for="memberName1">Member Name *</label>
+                            <input type="text" id="memberName1" name="memberName1" required placeholder="Enter member name">
+                        </div>
+                        <div class="form-group">
+                            <label for="memberUSN1">USN *</label>
+                            <input type="text" id="memberUSN1" name="memberUSN1" required placeholder="Enter USN">
+                        </div>
+                    </div>
+                </div>
+                <button type="button" class="add-member-btn" onclick="addTeamMember()">+ Add Team Member</button>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-secondary" onclick="previousStep()">Previous</button>
+                    <button type="button" class="btn btn-primary" onclick="nextStep()">Submit & Next</button>
+                </div>
+            </div>
+
+            <!-- Step 3: Location Selection -->
+            <div class="form-step" data-step="3">
+                <h2>Choose Save Location</h2>
+                <div class="location-choice">
+                    <h3>Where would you like to save your project?</h3>
+                    <div class="location-options">
+                        <div class="location-option" id="defaultLocation" onclick="selectLocation('default')">
+                            <div class="option-title">Default Location</div>
+                            <div class="option-description">D:\Main-projects 2k25</div>
+                        </div>
+                        <div class="location-option" id="customLocation" onclick="selectLocation('custom')">
+                            <div class="option-title">Choose Folder</div>
+                            <div class="option-description">Select custom location</div>
+                        </div>
+                    </div>
+                    <div class="form-group" id="customPathGroup" style="display: none;">
+                        <label for="customPath">Custom Path *</label>
+                        <input type="text" id="customPath" name="customPath" placeholder="Enter custom path or browse">
+                        <button type="button" class="btn btn-secondary" onclick="browseFolder()">Browse</button>
+                    </div>
+                </div>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-secondary" onclick="previousStep()">Previous</button>
+                    <button type="button" class="btn btn-primary" onclick="createProjectFolder()">Continue</button>
+                </div>
+            </div>
+
+            <!-- Step 4: Upload Supporting Files -->
+            <div class="form-step" data-step="4">
+                <h2>Upload Supporting Files</h2>
+                
+                <!-- README Upload -->
+                <div class="form-group">
+                    <label>Upload ReadMe.txt *</label>
+                    <div class="file-upload" onclick="document.getElementById('readmeFile').click()">
+                        <div class="file-upload-icon">📄</div>
+                        <div class="file-upload-text">Click to upload or drag and drop</div>
+                        <div class="file-upload-hint">All file types are accepted</div>
+                        <input type="file" id="readmeFile" onchange="handleFileUpload('readme', this)">
+                    </div>
+                    <div id="readmePreview" class="file-preview" style="display: none;">
+                        <div class="file-name"></div>
+                        <div class="file-size"></div>
+                    </div>
+                </div>
+
+                <!-- Installation Instructions Upload -->
+                <div class="form-group">
+                    <label>Upload Installation Instructions *</label>
+                    <div class="file-upload" onclick="document.getElementById('installationFile').click()">
+                        <div class="file-upload-icon">📋</div>
+                        <div class="file-upload-text">Click to upload or drag and drop</div>
+                        <div class="file-upload-hint">All file types are accepted</div>
+                        <input type="file" id="installationFile" onchange="handleFileUpload('installation', this)">
+                    </div>
+                    <div id="installationPreview" class="file-preview" style="display: none;">
+                        <div class="file-name"></div>
+                        <div class="file-size"></div>
+                    </div>
+                </div>
+
+                <div class="btn-group">
+                    <button type="button" class="btn btn-secondary" onclick="previousStep()">Previous</button>
+                    <button type="button" class="btn btn-primary" onclick="uploadSupportingFiles()">Next</button>
+                </div>
+            </div>
+
+            <!-- Step 5: Upload Source Code -->
+            <div class="form-step" data-step="5">
+                <h2>Upload Main ZIP (Source Code)</h2>
+                <div class="form-group">
+                    <label>Upload Source Code ZIP *</label>
+                    <div class="file-upload" onclick="document.getElementById('sourceFile').click()">
+                        <div class="file-upload-icon">🗜️</div>
+                        <div class="file-upload-text">Click to upload or drag and drop</div>
+                        <div class="file-upload-hint">Only .zip files are accepted</div>
+                        <input type="file" id="sourceFile" accept=".zip" onchange="handleFileUpload('source', this)">
+                    </div>
+                    <div id="sourcePreview" class="file-preview" style="display: none;">
+                        <div class="file-name"></div>
+                        <div class="file-size"></div>
+                    </div>
+                </div>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-secondary" onclick="previousStep()">Previous</button>
+                    <button type="button" class="btn btn-success" onclick="finishSubmission()">Finish Submission</button>
+                </div>
+            </div>
+
+            <!-- Success Page -->
+            <div class="form-step" data-step="6">
+                <div class="success-page">
+                    <div class="success-icon">✅</div>
+                    <h2 class="success-title">Project Submitted Successfully!</h2>
+                    <p class="success-message">Your project has been uploaded and saved successfully.</p>
+                    <div class="success-details" id="successDetails">
+                        <!-- Details will be populated dynamically -->
+                    </div>
+                    <div class="navigation-links">
+                        <a href="/" class="btn btn-primary">Submit New Project</a>
+                        <a href="/search" class="btn btn-secondary">Search Projects</a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script src="/js/app.js"></script>
+</body>
+</html>

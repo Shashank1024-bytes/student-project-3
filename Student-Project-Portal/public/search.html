@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Projects - Student Project Portal</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        .search-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .search-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .search-form {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+        
+        .search-input-group {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .search-type {
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            background: white;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .search-type:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .search-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+        
+        .results-container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .result-item {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border: 2px solid #e0e0e0;
+            transition: all 0.3s ease;
+        }
+        
+        .result-item:hover {
+            border-color: #667eea;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        .result-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 15px;
+        }
+        
+        .result-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+        .result-timestamp {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .result-details {
+            margin-bottom: 15px;
+        }
+        
+        .result-members {
+            margin-bottom: 10px;
+        }
+        
+        .result-members strong {
+            color: #333;
+        }
+        
+        .member-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 5px;
+        }
+        
+        .member-badge {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        
+        .result-path {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            word-break: break-all;
+        }
+        
+        .result-path strong {
+            color: #333;
+        }
+        
+        .result-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .btn-open {
+            background: linear-gradient(135deg, #4caf50, #45a049);
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-open:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 5px 10px rgba(76, 175, 80, 0.3);
+        }
+        
+        .btn-download {
+            background: linear-gradient(135deg, #2196f3, #1976d2);
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-download:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 5px 10px rgba(33, 150, 243, 0.3);
+        }
+        
+        .btn-download-all {
+            background: linear-gradient(135deg, #ff9800, #f57c00);
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-download-all:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 5px 10px rgba(255, 152, 0, 0.3);
+        }
+        
+        .file-list {
+            margin-top: 10px;
+            padding: 10px;
+            background: #f0f0f0;
+            border-radius: 5px;
+        }
+        
+        .file-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5px 0;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .file-item:last-child {
+            border-bottom: none;
+        }
+        
+        .file-name {
+            font-size: 0.9rem;
+            color: #333;
+        }
+        
+        .file-size {
+            font-size: 0.8rem;
+            color: #666;
+        }
+        
+        .no-results {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+        
+        .no-results-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            opacity: 0.5;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+        }
+        
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 10px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .navigation-links {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+        
+        @media (max-width: 768px) {
+            .search-input-group {
+                flex-direction: column;
+            }
+            
+            .result-header {
+                flex-direction: column;
+            }
+            
+            .result-actions {
+                flex-direction: column;
+            }
+            
+            .member-list {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container search-container">
+        <div class="header">
+            <h1>Search Projects</h1>
+            <p>Find submitted projects by name, member, USN, or date</p>
+        </div>
+
+        <div class="search-form">
+            <div class="search-input-group">
+                <input type="text" id="searchInput" class="search-input" placeholder="Enter search query...">
+                <select id="searchType" class="search-type">
+                    <option value="all">All Fields</option>
+                    <option value="projectName">Project Name</option>
+                    <option value="memberName">Member Name</option>
+                    <option value="usn">USN</option>
+                    <option value="timestamp">Timestamp</option>
+                    <option value="path">Path/Folder</option>
+                </select>
+                <button class="search-btn" onclick="searchProjects()">Search</button>
+            </div>
+        </div>
+
+        <div class="results-container">
+            <div id="searchResults">
+                <div class="no-results">
+                    <div class="no-results-icon">🔍</div>
+                    <p>Enter a search query to find projects</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="navigation-links">
+            <a href="/" class="btn btn-primary">Submit New Project</a>
+            <button class="btn btn-secondary" onclick="loadAllProjects()">View All Projects</button>
+        </div>
+    </div>
+
+    <script src="/js/search.js"></script>
+</body>
+</html>
