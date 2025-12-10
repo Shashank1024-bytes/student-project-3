@@ -129,3 +129,5 @@ npm run dev
 ## License
 
 MIT License
+
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
